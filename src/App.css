@@ -1,41 +1,54 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+    background: linear-gradient(to right, #00AAFF, #270053);
+    margin: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.calculatorGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 6rem);
+    grid-template-rows: minmax(7rem, auto) repeat(5, 6rem);
+    justify-content: center;
+    margin-top: 2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.calculatorGrid > button {
+    background-color: rgba(255, 255, 255, .75);
+    border: 1px solid white;
+    cursor: pointer;
+    font-size: 2rem;
+    outline: none;
 }
 
-.card {
-  padding: 2em;
+.calculatorGrid > button:hover, .calculatorGrid > button:focus {
+    background-color: (255, 255, 255, .9);
 }
 
-.read-the-docs {
-  color: #888;
+.span-two {
+    grid-column: span 2;
+}
+
+.output {
+    align-items: flex-end;
+    background-color: rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / -1;
+    justify-content: space-around;
+    padding: .75rem;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.output .previousOperand {
+    color: rgba(255, 255, 255, .75);
+    font-size: 1.5rem;
+}
+
+.output .currentOperand {
+    color: white;
+    font-size: 2.5rem;
 }
