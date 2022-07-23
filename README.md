@@ -20,7 +20,7 @@ Este proyecto cuenta con dos ramas principales (branches)
 
 ```bash
 yarn
-``
+```
 
 ## Ejecutar en modo desarrollo
 ```bash
