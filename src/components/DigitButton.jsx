@@ -1,7 +1,7 @@
 import { ACTIONS } from '../App'
 import PropTypes from 'prop-types'
 
-export const DigitButton = ( { dispatch, digit } ) => {
+export default function DigitButton ({ dispatch, digit }) {
     return (
         <button onClick={ () => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit }})}>
             { digit }
