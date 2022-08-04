@@ -1,8 +1,11 @@
 import { useReducer } from 'react';
 import DigitButton from './components/DigitButton';
-import { OperationButton } from './components/OperationButton';
+import OperationButton from './components/OperationButton';
 import './App.css';
 
+/**
+ * @const { actions } - 
+ */
 export const ACTIONS = {
   ADD_DIGIT: 'add-digit',
   CHOOSE_OPERATION: 'choose-operation',
@@ -10,6 +13,11 @@ export const ACTIONS = {
   DELETE_DIGIT: 'delete-digit',
   EVALUATE: 'evaluate'
 };
+
+
+/**
+ * Functions
+ */
 
 function reducer(state, { type, payload }) {
   switch (type) {
@@ -19,7 +27,7 @@ function reducer(state, { type, payload }) {
           ...state,
           currentOperand: payload.digit,
           overwrite: false,
-        }
+        };
       }
 
       if (payload.digit === '0' && state.currentOperand === '0') return state;
@@ -27,8 +35,8 @@ function reducer(state, { type, payload }) {
 
       return {
         ...state,
-        currentOperand: `${state.currentOperand || ''}${payload.digit}`,
-      }
+        currentOperand: `${state.currentOperand || ''}${payload.digit}`
+      };
     case ACTIONS.CHOOSE_OPERATION:
       if (state.currentOperand == null && state.previousOperand == null) return state;
 
@@ -36,7 +44,7 @@ function reducer(state, { type, payload }) {
         return {
           ...state,
           operation: payload.operation,
-        }
+        };
       }
 
       if (state.previousOperand == null) {
@@ -45,7 +53,7 @@ function reducer(state, { type, payload }) {
           operation: payload.operation,
           previousOperand: state.currentOperand,
           currentOperand: null,
-        }
+        };
       }
 
       return {
@@ -53,32 +61,35 @@ function reducer(state, { type, payload }) {
         previousOperand: evaluate(state),
         operation: payload.operation,
         currentOperand: null,
-      }
+      };
     case ACTIONS.CLEAR:
-      return {}
+      return {};
     case ACTIONS.DELETE_DIGIT:
       if (state.overwrite) {
         return {
           ...state,
           overwrite: false,
           currentOperand: null,
-        }
+        };
       }
       if (state.currentOperand == null) return state
       if (state.currentOperand.length === 1) {
-        return { ...state, currentOperand: null }
+        return {
+          ...state,
+          currentOperand: null
+        };
       }
 
       return {
         ...state,
         currentOperand: state.currentOperand.slice(0, -1),
-      }
+      };
     case ACTIONS.EVALUATE:
       if (
         state.operation == null ||
         state.currentOperand == null ||
         state.previousOperand == null
-      ) return state
+      ) return state;
 
       return {
         ...state,
@@ -86,44 +97,46 @@ function reducer(state, { type, payload }) {
         previousOperand: null,
         operation: null,
         currentOperand: evaluate(state),
-      }
+      };
   }
-}
+};
 
 function evaluate({ currentOperand, previousOperand, operation }) {
-    const prev = parseFloat(previousOperand);
-    const current = parseFloat(currentOperand);
-    if (isNaN(prev) || isNaN(current)) return ''
-    let computation = '';
-    switch (operation) {
-      case '+':
-        computation = prev + current
-        break
-      case '-':
-        computation = prev - current
-        break
-      case '*':
-        computation = prev * current
-        break
-      case '÷':
-        computation = prev / current
-        break
-    }
-  
-    return computation.toString()
+  let computation = '';
+  const prev = parseFloat(previousOperand);
+  const current = parseFloat(currentOperand);
+  if (isNaN(prev) || isNaN(current)) return '';
+  switch (operation) {
+    case '+':
+      computation = prev + current;
+      break;
+    case '-':
+      computation = prev - current;
+      break;
+    case '*':
+      computation = prev * current;
+      break;
+    case '÷':
+      computation = prev / current;
+      break;
   }
-  
-  const INTEGER_FORMATTER = new Intl.NumberFormat('en-us', {
-    maximumFractionDigits: 0,
-  })
+  return computation.toString();
+};
 
+/**
+ * 
+ */
+const INTEGER_FORMATTER = new Intl.NumberFormat('en-us', { maximumFractionDigits: 0 });
 function formatOperand(operand) {
-  if (operand == null) return
-  const [integer, decimal] = operand.split('.')
-  if (decimal == null) return INTEGER_FORMATTER.format(integer)
-  return `${INTEGER_FORMATTER.format(integer)}.${decimal}`
-}
+  if (operand == null) return;
+  const [integer, decimal] = operand.split('.');
+  if (decimal == null) return INTEGER_FORMATTER.format(integer);
+  return `${INTEGER_FORMATTER.format(integer)}.${decimal}`;
+};
 
+/**
+ * 
+ */
 function App() {
   const [ {currentOperand, previousOperand, operation}, dispatch ] = useReducer( reducer, {} );
 
@@ -133,7 +146,9 @@ function App() {
         <div className='previousOperand'>
           {formatOperand(previousOperand)} {operation}
         </div>
-        <div className='currentOperand'>{formatOperand(currentOperand)}</div>
+        <div className='currentOperand'>
+          {formatOperand(currentOperand)}
+        </div>
       </div>
       <button className='span-two' onClick={() => dispatch({ type: ACTIONS.CLEAR })}>
         AC
@@ -160,7 +175,7 @@ function App() {
         =
       </button>
     </div>
-  )
-}
+  );
+};
 
 export default App;
