@@ -2,11 +2,11 @@ import { ACTIONS } from '../App';
 import PropTypes from 'prop-types';
 
 /**
- * Function Component for Digit Buttons
- * @param { Object }  DigitButton - button to add digit value to use
+ * Digit Button Function Component
+ * @param { Object }    DigitButton
  * @param { Function }  DigitButton.dispatch - dispatch function of reducer
- * @param { string }  DigitButton.digit - digit value
- * @return { string } The HTML button
+ * @param { string }    DigitButton.digit - digit value
+ * @return { string }   The HTML button
  */
 const DigitButton = ({ dispatch, digit }) => (
   <button onClick={() => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit } })}>
