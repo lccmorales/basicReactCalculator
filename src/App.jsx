@@ -1,6 +1,7 @@
-import { useReducer, useEffect, useRef } from 'react';
+import { useReducer, useEffect, useRef, useState } from 'react';
 import DigitButton from './components/DigitButton';
 import OperationButton from './components/OperationButton';
+import KeyList from './components/KeyList';
 import './App.css';
 
 /**
@@ -16,7 +17,7 @@ export const ACTIONS = {
 
 /**
  * Reducer Function
- * @param {*} state
+ * @param { * } state
  * @param { Object }  Payload
  * @param { string }  Payload.type - type value
  * @param { Object }  Payload.payload - new value for the state
@@ -148,6 +149,7 @@ function formatOperand(operand) {
   return `${INTEGER_FORMATTER.format(integer)}.${decimal}`;
 }
 
+
 /**
  ** Basic React Calculator - Main HTML structure
  * @return { string } The HTML App
@@ -158,74 +160,91 @@ function App() {
     {}
   );
 
+  const [showKeyList, setShowKeyList] = useState(false);
+
   /**
-   * Reference Variable
+   * useRef Variables
    */
   const ref = useRef(null);
-  const refOne = useRef();
-
+  const ref1 = useRef();
+  const ref2 = useRef();
+  const ref3 = useRef();
+  const ref4 = useRef();
+  const ref5 = useRef();
+  const ref6 = useRef();
+  const ref7 = useRef();
+  const ref8 = useRef();
+  const ref9 = useRef();
+  const ref0 = useRef();
+  const refDot = useRef();
+  const refAddition = useRef();
+  const refSubtraction = useRef();
+  const refMultiplication = useRef();
+  const refDivision = useRef();
+  const refDel = useRef();
+  const refAC = useRef();
+  const refEVAL = useRef();
+  
   useEffect(() => {
     ref.current.focus();
   }, []);
 
   const handleKeyDown = (event) => {
-    console.log('User pressed: ', event.key);
+    // console.log('User pressed: ', event.key);
     switch (event.key) {
       case '1':
-        refOne.current.click();
+        ref1.current.click();
         break;
       case '2':
-      
+        ref2.current.click();
         break;
       case '3':
-
+        ref3.current.click();
         break;
       case '4':
-      
+        ref4.current.click();
         break;
       case '5':
-
+        ref5.current.click();
         break;
       case '6':
-      
+        ref6.current.click();
         break;
       case '7':
-
+        ref7.current.click();
         break;
       case '8':
-      
+        ref8.current.click();
         break;
       case '9':
-
+        ref9.current.click();
         break;
       case '0':
-      
+        ref0.current.click();
         break;
-      case '1':
-
-        break;
-      case '2':
-      
+      case '.':
+        refDot.current.click();
         break;
       case '+':
-
+        refAddition.current.click();
         break;
       case '-':
-
+        refSubtraction.current.click();
         break;
       case '*':
+        refMultiplication.current.click();
         break;
       case '/':
-
+        refDivision.current.click();
         break;
       case 'Enter':
-
+        refEVAL.current.click();
         break;
       case 'Delete':
-
+        refDel.current.click();
         break;
       case 'Escape':
-
+        refAC.current.click();
         break;
       default:
         break;
@@ -233,36 +252,46 @@ function App() {
   };
 
   return (
-    <div className='calculatorGrid' ref={ref} tabIndex={-1} onKeyDown={handleKeyDown}>
-      <div className='output'>
-        <div className='previousOperand'>
-          {formatOperand(previousOperand)} {operation}
+    <>
+      <div className='calculatorGrid' ref={ref} tabIndex={-1} onKeyDown={handleKeyDown}>
+        <div className='output'>
+          <div className='previousOperand'>
+            {formatOperand(previousOperand)} {operation}
+          </div>
+          <div className='currentOperand'>{formatOperand(currentOperand)}</div>
         </div>
-        <div className='currentOperand'>{formatOperand(currentOperand)}</div>
+        <button className='span-two' onClick={() => dispatch({ type: ACTIONS.CLEAR })} ref={refAC} data-title='Press Esc'>
+          AC
+        </button>
+        <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })} ref={refDel} data-title='Press Del'>
+          DEL
+        </button>
+        <OperationButton operation='÷' dispatch={dispatch} ref={refDivision}/>
+        <DigitButton digit='1' dispatch={dispatch} ref={ref1} />
+        <DigitButton digit='2' dispatch={dispatch} ref={ref2} />
+        <DigitButton digit='3' dispatch={dispatch} ref={ref3}/>
+        <OperationButton operation='*' dispatch={dispatch} ref={refMultiplication}/>
+        <DigitButton digit='4' dispatch={dispatch} ref={ref4}/>
+        <DigitButton digit='5' dispatch={dispatch} ref={ref5}/>
+        <DigitButton digit='6' dispatch={dispatch} ref={ref6}/>
+        <OperationButton operation='+' dispatch={dispatch} ref={refAddition}/>
+        <DigitButton digit='7' dispatch={dispatch} ref={ref7}/>
+        <DigitButton digit='8' dispatch={dispatch} ref={ref8}/>
+        <DigitButton digit='9' dispatch={dispatch} ref={ref9}/>
+        <OperationButton operation='-' dispatch={dispatch} ref={refSubtraction}/>
+        <DigitButton digit='.' dispatch={dispatch} ref={refDot}/>
+        <DigitButton digit='0' dispatch={dispatch} ref={ref0}/>
+        <button className='span-two' onClick={() => dispatch({ type: ACTIONS.EVALUATE })} ref={refEVAL}
+          data-title='Press Enter'
+        >
+          =
+        </button>
       </div>
-      <button className='span-two' onClick={() => dispatch({ type: ACTIONS.CLEAR })}>
-        AC
-      </button>
-      <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>DEL</button>
-      <OperationButton operation='÷' dispatch={dispatch} />
-      <DigitButton digit='1' dispatch={dispatch} innerRef={refOne}/>
-      <DigitButton digit='2' dispatch={dispatch} />
-      <DigitButton digit='3' dispatch={dispatch} />
-      <OperationButton operation='*' dispatch={dispatch} />
-      <DigitButton digit='4' dispatch={dispatch} />
-      <DigitButton digit='5' dispatch={dispatch} />
-      <DigitButton digit='6' dispatch={dispatch} />
-      <OperationButton operation='+' dispatch={dispatch} />
-      <DigitButton digit='7' dispatch={dispatch} />
-      <DigitButton digit='8' dispatch={dispatch} />
-      <DigitButton digit='9' dispatch={dispatch} />
-      <OperationButton operation='-' dispatch={dispatch} />
-      <DigitButton digit='.' dispatch={dispatch} />
-      <DigitButton digit='0' dispatch={dispatch} />
-      <button className='span-two' onClick={() => dispatch({ type: ACTIONS.EVALUATE })}>
-        =
-      </button>
-    </div>
+      <div className="notes" onClick={ () => setShowKeyList(!showKeyList) } >
+        <span style={{textAlign: 'center'}}>Using your Keyboard</span>
+        { showKeyList && <KeyList />} 
+      </div>
+    </>
   );
 }
 

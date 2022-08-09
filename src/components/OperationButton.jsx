@@ -1,3 +1,4 @@
+import React from 'react';
 import { ACTIONS } from '../App';
 import PropTypes from 'prop-types';
 
@@ -6,15 +7,16 @@ import PropTypes from 'prop-types';
  * @param { Object }    OperationButton - button to add operation to use
  * @param { Function }  OperationButton.dispatch - dispatch function of reducer
  * @param { string }    OperationButton.operation - operation value
+ * @param { string }    refButton - reference the button with App  
  * @return { string }   The HTML button
  */
-const OperationButton = ({ dispatch, operation }) => (
+const OperationButton = React.forwardRef(({ dispatch, operation }, refButton) => (
   <button
-    onClick={() => dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation } })}
+    onClick={() => dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation } })} ref={refButton}
   >
     {operation}
   </button>
-);
+));
 
 // Rules to props
 OperationButton.propTypes = {

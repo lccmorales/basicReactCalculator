@@ -1,3 +1,4 @@
+import React from 'react';
 import { ACTIONS } from '../App';
 import PropTypes from 'prop-types';
 
@@ -6,13 +7,14 @@ import PropTypes from 'prop-types';
  * @param { Object }    DigitButton
  * @param { Function }  DigitButton.dispatch - dispatch function of reducer
  * @param { string }    DigitButton.digit - digit value
+ * @param { string }    refButton - reference the button with App  
  * @return { string }   The HTML button
  */
-const DigitButton = ({ dispatch, digit }) => (
-  <button onClick={() => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit } })}>
+const DigitButton = React.forwardRef(({ dispatch, digit }, refButton) => (
+  <button onClick={() => dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit } })} ref={refButton}>
     {digit}
   </button>
-);
+));
 
 // Rules to props
 DigitButton.propTypes = {
